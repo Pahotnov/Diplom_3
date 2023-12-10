@@ -3,6 +3,7 @@ import requests
 from selenium import webdriver
 
 from helpers import Helpers
+from pages.stellar_burgers_login_page import StellarBurgersLoginPage
 from pages.stellar_burgers_main_page import StellarBurgersMainPage
 from personal_info_data import PersonalInfoData
 from urls import Urls
@@ -54,9 +55,11 @@ def get_user_name_email_password():
 def login(driver):
     def _login(email, password):
         stellar_burgers_main_page = StellarBurgersMainPage(driver)
-        stellar_burgers_login_page = stellar_burgers_main_page.click_on_personal_account_button()
+        stellar_burgers_main_page.click_on_personal_account_button()
+        stellar_burgers_login_page = StellarBurgersLoginPage(driver)
         stellar_burgers_login_page.fill_email_input_field(email)
         stellar_burgers_login_page.fill_password_input_field(password)
-        stellar_burgers_main_page = stellar_burgers_login_page.click_on_sign_in_button()
+        stellar_burgers_login_page.click_on_sign_in_button()
+        stellar_burgers_main_page = StellarBurgersMainPage(driver)
         return stellar_burgers_main_page
     return _login

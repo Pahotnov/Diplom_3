@@ -1,7 +1,8 @@
-import time
-
 import allure
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.support.wait import WebDriverWait
+
 from pages.base_page import BasePage
 
 
@@ -35,6 +36,8 @@ class StellarBurgersListOfOrdersPage(BasePage):
 
     @allure.step('Проверка наличия номера заказа в разделе "В работе"')
     def check_order_in_work(self):
-        time.sleep(5)
-        order_id = self.get_element_text(self.order_id_in_work_list)
+        WebDriverWait(self.driver, 5).until(
+            expected_conditions.text_to_be_present_in_element(self.order_id_in_work_list, "0"))
+        order_id = self.find_element(self.order_id_in_work_list).text
         return int(order_id.replace("", ''))
+3
